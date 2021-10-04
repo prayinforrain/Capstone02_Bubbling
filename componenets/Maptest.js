@@ -31,15 +31,15 @@ export default class Maptest extends React.Component {
                 id="1"
                 />
                 <MarkerItem
-                lat="52.21"
-                lon="18.42"
+                lat="52.61"
+                lon="18.72"
                 msg="두번쨰 메시지"
                 id="1"
                 />
                 <MarkerItem
-                lat="52.16"
-                lon="18.46"
-                msg="하와와와"
+                lat="51.76"
+                lon="18.96"
+                msg="테스트 세번째 메시지"
                 id="1"
                 />
                     

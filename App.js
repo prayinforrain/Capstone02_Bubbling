@@ -27,11 +27,14 @@ export default function App() {
     <View style={styles.container}>
       {isLoggedIn ?
       <View>
-        <TopFrame style={styles.topFrame}/>
+        <View style={styles.topFrame}>
+          <TopFrame/>
+        </View>
         <View style={styles.mainContent}>
           <Maptest/>
         </View>
-        
+        <View style={styles.bottomFrame}>
+        </View>
       </View> :
       <LoginComponent/>}
     </View>
@@ -49,6 +52,10 @@ const styles = StyleSheet.create({
     flex: 10
   },
   topFrame: {
+    paddingTop: 60,
+    flex: 2
+  },
+  bottomFrame: {
     flex: 2
   }
 });

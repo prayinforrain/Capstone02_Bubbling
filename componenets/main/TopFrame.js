@@ -13,9 +13,12 @@ const LoginComponent = ({}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Top Frame</Text>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>Logged in With : {auth.currentUser.email}</Text>
+            </View>
             <TouchableOpacity
             style={styles.logout}
+            onPress={onLogout}
             >
                 <Text>Logout</Text>
             </TouchableOpacity>
@@ -30,13 +33,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         width: "100%",
-        flexDirection:"row"
+        flexDirection:"row",
     },
     header: {
+        flex: 8,
+        justifyContent:"center",
+    },
+    headerText: {
         textAlign: "center",
-        flex: 8
     },
     logout: {
-        flex: 1
+        flex: 2,
+        justifyContent:"center",
     }
 });
