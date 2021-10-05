@@ -1,52 +1,82 @@
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, Alert } from 'react-native';
 import MapView from 'react-native-maps';
-import { render } from 'react-dom';
-import { Marker } from 'react-native-maps';
 import MarkerItem from './mapItems/MarkerItem';
+import * as Location from 'expo-location';
 
 //let bubbleIcon = require('../assets/bubble_borderHD.png');
 
-export default class Maptest extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
+
+export default function Maptest() {
+    const [Lon, setLon] = useState(0);
+    const [Lat, setLat] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+
+    geoLocation = async() => {
+        try {
+            const responseForeground = await Location.requestForegroundPermissionsAsync();
+            //const responseBackground = await Location.requestBackgroundPermissionsAsync();
+            const location = await Location.getCurrentPositionAsync();
+            setLon(location.coords.longitude);
+            setLat(location.coords.latitude);
+            setIsLoading(true);
+        } catch(err) {
+            console.log(err);
+            Alert.alert(err);
+        }
+    }
+
+    useEffect(() => {
+        if(!isLoading) {
+            geoLocation();
+        }
+    }, [isLoading]);
+    
+    return (
+        <View style={styles.container}>
+            {isLoading ? (
+                <>
                 <Text>
-                    Google Maps API Test Page
+                    Google Maps API Test Page : {isLoading? "true" : "false"}
+                </Text>
+                <Text>
+                    Lat : {Lat}, Lon : {Lon}
                 </Text>
                 <MapView
                 style={styles.map}
                 initialRegion={{
-                    latitude: 52.5,
-                    longitude: 19.2,
+                    latitude: Lat,
+                    longitude: Lon,
                     latitudeDelta: 8.5,
                     longitudeDelta: 8.5,
                 }}
                 >
-                <MarkerItem
-                lat="52.1"
-                lon="18.4"
-                msg="테스트메시지 하나"
-                id="1"
-                />
-                <MarkerItem
-                lat="52.61"
-                lon="18.72"
-                msg="두번쨰 메시지"
-                id="1"
-                />
-                <MarkerItem
-                lat="51.76"
-                lon="18.96"
-                msg="테스트 세번째 메시지"
-                id="1"
-                />
+                    <MarkerItem
+                    lat="52.1"
+                    lon="18.4"
+                    msg="테스트메시지 하나"
+                    id="1"
+                    />
+                    <MarkerItem
+                    lat="52.61"
+                    lon="18.72"
+                    msg="두번쨰 메시지"
+                    id="1"
+                    />
+                    <MarkerItem
+                    lat="51.76"
+                    lon="18.96"
+                    msg="테스트 세번째 메시지"
+                    id="1"
+                    />
                     
                 </MapView>
-            </View>
-        );
-    }
+                </>
+            ) : (
+                <Text>Loading..</Text>
+            )}
+        </View>
+    );
 }
 const styles = StyleSheet.create({
     container: {

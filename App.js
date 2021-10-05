@@ -1,24 +1,14 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import LoginComponent from './componenets/login/LoginComponent';
-import Maptest from './componenets/Maptest';
-import TopFrame from './componenets/main/TopFrame';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth } from './firebaseConfig';
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import HomeComponent from './componenets/main/HomeComponent';
+import LoginComponent from './componenets/login/LoginComponent';
 
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
-const StackNav = createNativeStackNavigator();
 const TabNav = createBottomTabNavigator();
 
 
@@ -39,23 +29,6 @@ export default function App() {
     });
   }, [])
 
-  /*
-    <SafeAreaView style={styles.container}>
-      {isLoggedIn ?
-        <View>
-          <View style={styles.topFrame}>
-            <TopFrame/>
-          </View>
-          <View style={styles.mainContent}>
-            <Maptest/>
-          </View>
-          <View style={styles.bottomFrame}>
-          </View>
-        </View> :
-        <LoginComponent/>
-      }
-    </SafeAreaView>
-  */
   return (
       <NavigationContainer>
         <TabNav.Navigator
@@ -64,36 +37,44 @@ export default function App() {
           title: "AppName",
           headerLeft: function() {
             return (
-              <Text>Left</Text>
+              <TouchableOpacity style={styles.headerButtons}>
+                <Ionicons name="person-circle" size={32}/>
+              </TouchableOpacity>
             )
           },
           headerRight: function() {
             return(
-              <Text>Right</Text>
+              <TouchableOpacity style={styles.headerButtons}>
+                <Ionicons name="add-circle" size={32}/>
+              </TouchableOpacity>
             )
           }
         }}>
-          <TabNav.Screen name="Home" component={Maptest}/>
+          <TabNav.Screen
+          name="Home"
+          component={HomeComponent}
+          options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: ({color, size}) => (
+                <Ionicons name="home" color={color} size={size}/>
+              ),
+          }}/>
+          <TabNav.Screen
+          name="Login"
+          component={LoginComponent}
+          options={{
+              tabBarLabel: 'Login',
+              tabBarIcon: ({color, size}) => (
+                <Ionicons name="add-circle" color={color} size={size}/>
+              ),
+          }}/>
         </TabNav.Navigator>
       </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mainContent: {
-    flex: 10
-  },
-  topFrame: {
-    flex: 2,
-    backgroundColor: "blue"
-  },
-  bottomFrame: {
-    flex: 2
+  headerButtons: {
+    marginHorizontal: 15,
   }
 });
