@@ -26,13 +26,16 @@
       },
       "package": "com.prayinforrain.test",
       "config": {
-        "googleMaps":{
+        "googleMaps": {
           "apiKey": "AIzaSyB-9uKvf5WZUJrLmVEEQ_c2pTYgw4FQbH8"
         }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-image-picker"
+    ]
   }
 }

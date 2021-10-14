@@ -15,7 +15,12 @@ const firebaseConfig = {
     measurementId: REACT_APP_MEASUREMENT_ID
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+} else {
+    firebase.app();
+}
+
 export const auth = firebase.auth();
 export const dbService = firebase.firestore();
 export const storageService = firebase.storage();

@@ -4,7 +4,13 @@ import { Marker } from 'react-native-maps';
 
 let bubbleIcon = require('../../assets/bubble_borderHD.png');
 
-const MarkerItem = ({lat, lon, msg, id}) => {
+/**
+ * @todo 유저 프로필 정보에 위치정보 기록하도록 (로그인 시에 할지 아니면 여기서 할지)
+ * @todo 구슬 싸는 컴포넌트 만들것
+ */
+
+const MarkerItem = ({markerData}) => {
+    //lat, lon, msg, id
     const [clicked, setClicked] = useState(false);
     const opacityValue = useRef(new Animated.Value(0)).current;
 
@@ -31,14 +37,14 @@ const MarkerItem = ({lat, lon, msg, id}) => {
     }, [clicked])
 
     return (
-        <Marker coordinate = {{latitude: Number(lat), longitude: Number(lon)}}
+        <Marker coordinate = {{latitude: Number(markerData.lat), longitude: Number(markerData.long)}}
         onPress={() => clickEvent()}
         >
             {clicked ? (
                 <Animated.View style={{
                     opacity: opacityValue
                 }}>
-                    <Text>{msg}</Text>
+                    <Text>{markerData.content}</Text>
                 </Animated.View>
             ) : 
                 <Image source={bubbleIcon} style={styles.marker} resizeMode="contain"/>
