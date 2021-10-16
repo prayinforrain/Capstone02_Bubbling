@@ -116,14 +116,9 @@ const RegisterComponent = ({navigation}) => {
         } else setError("Your Name already exists");
     }
 
-    const onGoBack = () => {
-        navigation.goBack();
-    }
-
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Register Component</Text>
-            <Text>{Error}</Text>
             <TextInput
                 placeholder="ID"
                 style={styles.input}
@@ -180,12 +175,7 @@ const RegisterComponent = ({navigation}) => {
             >
                 <Text style={styles.loginText}>Register</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onGoBack}
-            >
-                <Text style={styles.loginText}>Cancel</Text>
-            </TouchableOpacity>
+            <Text>{Error}</Text>
         </View>
     );
 }

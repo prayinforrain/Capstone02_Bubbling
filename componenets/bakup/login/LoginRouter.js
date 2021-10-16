@@ -4,29 +4,30 @@ import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
-
-import { isLoggedIn, userToken } from '../../state';
-import { useRecoilState } from 'recoil';
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+import Profile from './Profile';
 
 //let bubbleIcon = require('../assets/bubble_borderHD.png');
 const StackNav = createNativeStackNavigator();
 
-const LoginRouter = () => {
+const LoginRouter = ({userToken}) => {
     const [isLoggedIn, setLoggedIn] = useState(false);
     
 
     return (
-        <NavigationContainer>
-            <StatusBar style="auto"/>
-            <StackNav.Navigator screenOptions={{
-                headerShown:false
-            }}>
-                <StackNav.Screen name="LoginMain" component={LoginComponent} routerObject = {StackNav}/>
+        <StackNav.Navigator screenOptions={{
+            headerShown:false
+        }}>
+            {userToken != null ? (
+                <>
+                <StackNav.Screen name="Profile" component={Profile} routerObject = {StackNav}/>
+                </>
+            ) : (
+                <>
+                <StackNav.Screen name="LoginMain" component={LoginComponent} routerObject = {StackNav} isLoggedIn = {isLoggedIn} setLoggedIn={setLoggedIn}/>
                 <StackNav.Screen name="Register" component={RegisterComponent} routerObject = {StackNav}/>
-            </StackNav.Navigator>
-        </NavigationContainer>
+                </>
+            )}
+        </StackNav.Navigator>
     );
 }
 

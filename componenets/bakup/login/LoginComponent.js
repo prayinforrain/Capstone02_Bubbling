@@ -1,14 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
+import { Marker } from 'react-native-maps';
 import { dbService, auth } from '../../firebaseConfig';
-import {useRecoilValue} from 'recoil';
-import {userToken, isLoggedIn} from '../../state';
+import RegisterComponent from './RegisterComponent';
 
 let bubbleIcon = require('../../assets/bubble_borderHD.png');
 
-const LoginComponent = ({navigation}) => {
-    const user = useRecoilValue(userToken);
-    const isLogged = useRecoilValue(isLoggedIn);
+const LoginComponent = ({navigation, isLoggedIn, setLoggedIn}) => {
+    const [test, setTest] = useState();
 
     const [ID, setID] = useState("");
     const [Password, setPassword] = useState("");
@@ -20,26 +19,18 @@ const LoginComponent = ({navigation}) => {
         e.preventDefault();
         try {
             let data = await auth.signInWithEmailAndPassword(ID, Password);
+            //if(data.user !== null) setLoggedIn(true);
         } catch (error) {
             setError(error.message);
         }
     }
     const gotoRegister = () => {
-        navigation.navigate("Register")
-    }
-
-    //Test Method
-    const onLogOut = () => {
-        //로그아웃 핸들러
-        auth.signOut();
+        if(navigation) navigation.navigate("Register");
     }
 
     return (
         <View style={styles.container}>
-            <Text>isLoggedIn = {isLogged? (<Text>true</Text>) : <Text>false</Text>}</Text>
-            {isLogged && (
-                <Text>uid : {user}</Text>
-            )}
+            <Text>isLoggedIn = {isLoggedIn? (<Text>true</Text>) : <Text>false</Text>}</Text>
             <Text style={styles.header}>Login Component</Text>
             <TextInput
                 placeholder="ID"
@@ -65,12 +56,6 @@ const LoginComponent = ({navigation}) => {
             onPress = {gotoRegister}
             >
                 <Text style={styles.loginText}>Register</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onLogOut}
-            >
-                <Text style={styles.loginText}>(Test)Signout </Text>
             </TouchableOpacity>
             <Text>{Error}</Text>
         </View>
