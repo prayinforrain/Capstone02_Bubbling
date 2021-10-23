@@ -33,10 +33,13 @@ export default function Newsfeed() {
     useEffect(() => {
         if(Lon != 0 || Lat != 0) {
             if(mapObject !== null) {
-                mapObject.animateToRegion({latitude: Lat,
+                mapObject.animateToRegion({
+                    latitude: Lat,
                     longitude: Lon,
                     latitudeDelta: 0.002,
-                    longitudeDelta: 0.002,}, 500);            }
+                    longitudeDelta: 0.002,
+                }, 500);
+            }
         }
     }, [Lon, Lat]);
 
@@ -126,7 +129,6 @@ export default function Newsfeed() {
                     showsUserLocation={true}
                     scrollEnabled= {false}
                     zoomEnabled= {false}
-                    followsUserLocation={true}
                     showsMyLocationButton={false}
                     showsCompass={false}
                     showsIndoors={false}

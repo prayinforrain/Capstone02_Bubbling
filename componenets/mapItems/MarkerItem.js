@@ -9,8 +9,9 @@ let noAttach = require('../../assets/empty.png');
 const MarkerItem = ({markerData}) => {
     //lat, lon, msg, id, Image
     const [clicked, setClicked] = useState(false);
-    const opacityValue = useRef(new Animated.Value(0)).current;
+    const scaleValue = useRef(new Animated.Value(0)).current;
     const bubbleObj = useRef();
+    const [isRemoved, setIsRemoved] = useState(false);
 
     
 
@@ -22,9 +23,9 @@ const MarkerItem = ({markerData}) => {
     useEffect(() => {
         if(clicked) {
             Animated.timing(
-                opacityValue, {
+                scaleValue, {
                     toValue: 1,
-                    duration: 500,
+                    duration: 200,
                     useNativeDriver: false
                 },
             ).start(() => {
@@ -41,17 +42,18 @@ const MarkerItem = ({markerData}) => {
     }
 
     const bubbleFadeout = () => {
-        bubbleObj.current.
         Animated.timing(
-            opacityValue, {
-                toValue: 0,
-                duration: 500,
+            scaleValue, {
+                toValue: 2,
+                duration: 200,
                 useNativeDriver: false
             }
         ).start(() => {
-            console.log("끝");
+            setIsRemoved(true);
         });
     }
+
+    if(isRemoved) return (<></>);
 
     return (
         <Marker coordinate = {{latitude: Number(markerData.lat), longitude: Number(markerData.long)}}
@@ -61,28 +63,32 @@ const MarkerItem = ({markerData}) => {
                 <Animated.View 
                 ref={bubbleObj}
                 style={{
-                    opacity: opacityValue,
-                    transform: [{
-                        scaleX: opacityValue.interpolate({
-                            inputRange:[0, 1],
-                            outputRange:[0, 1]
-                        }),
+                    opacity: scaleValue.interpolate({
+                        inputRange: [0, 1, 2],
+                        outputRange: [0, 1, 0],
+                    }),
+                    transform: [
+                    {
+                        scaleX: scaleValue
                     },
                     {
-                        scaleY: opacityValue.interpolate({
-                            inputRange:[0, 1],
-                            outputRange:[0, 1]
-                        })
+                        scaleY: scaleValue
                     },
                     {
-                        translateY: opacityValue.interpolate({
-                            inputRange:[0, 1],
-                            outputRange:[0, -10]
+                        translateY: scaleValue.interpolate({
+                            inputRange: [0, 1, 2],
+                            outputRange: [0, -10, -20]
                         })
-                    }]
+                    }
+                    ]
                 }}>
                     <View style={styles.ballonContainer}>
-                        <Text>{markerData.content}</Text>
+                        {markerData.Image !== "" && (
+                            <View style={styles.imgContainer}>
+                                <Image source={{uri:markerData.Image}} style={styles.imgAttach}/>
+                            </View>
+                        )}
+                        <Text style={styles.bubbleText}>{markerData.content}</Text>
                     </View>
                 </Animated.View>
             ) : 
@@ -113,7 +119,22 @@ const styles = StyleSheet.create({
     ballonContainer: {
         borderStyle:'solid',
         borderWidth:1,
+        borderRadius: 5,
+        borderColor: "grey",
         paddingHorizontal: 10,
         paddingVertical: 8,
+        backgroundColor:"white",
     },
+    imgContainer: {
+        width: "50%",
+        marginBottom: 6,
+    },
+    imgAttach: {
+        flex:1,
+        aspectRatio:1
+    },
+    bubbleText: {
+        paddingVertical: 6,
+        textAlign:"center"
+    }
 });
