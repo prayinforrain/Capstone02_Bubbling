@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { dbService, auth } from '../../firebaseConfig';
 import {useRecoilValue} from 'recoil';
 import {userToken, isLoggedIn} from '../../state';
@@ -35,45 +35,38 @@ const LoginComponent = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text>isLoggedIn = {isLogged? (<Text>true</Text>) : <Text>false</Text>}</Text>
-            {isLogged && (
-                <Text>uid : {user}</Text>
-            )}
-            <Text style={styles.header}>Login Component</Text>
-            <TextInput
-                placeholder="ID"
-                style={styles.input}
-                value={ID}
-                onChangeText={onChangeID}
-            />
-            <TextInput
-                placeholder="Password"
-                style={styles.input}
-                value={Password}
-                onChangeText={onChangePW}
-                secureTextEntry={true}
-            />
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onLoginHandler}
-            >
-                <Text style={styles.loginText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {gotoRegister}
-            >
-                <Text style={styles.loginText}>Register</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onLogOut}
-            >
-                <Text style={styles.loginText}>(Test)Signout </Text>
-            </TouchableOpacity>
-            <Text>{Error}</Text>
-        </View>
+        <TouchableWithoutFeedback
+        onPress={() => {Keyboard.dismiss()}}>
+            <View style={styles.container}>
+                <Text style={styles.header}>Login Component</Text>
+                <TextInput
+                    placeholder="ID"
+                    style={styles.input}
+                    value={ID}
+                    onChangeText={onChangeID}
+                />
+                <TextInput
+                    placeholder="Password"
+                    style={styles.input}
+                    value={Password}
+                    onChangeText={onChangePW}
+                    secureTextEntry={true}
+                />
+                <TouchableOpacity
+                style={styles.loginButton}
+                onPress = {onLoginHandler}
+                >
+                    <Text style={styles.loginText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                style={styles.loginButton}
+                onPress = {gotoRegister}
+                >
+                    <Text style={styles.loginText}>Register</Text>
+                </TouchableOpacity>
+                <Text>{Error}</Text>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 

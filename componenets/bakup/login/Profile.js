@@ -28,10 +28,8 @@ const Profile = ({navigation, profileUID = -1}) => {
     }, [uid]);
 
     const initUserInfo = async() => {
-        console.log(uid);
         if(uid !== "") {
             dbService.collection("userProfile").doc(uid).get().then((doc) => {
-                //console.log(typeof(doc.data().displayName));
                 if(doc.exists) {
                     setName(doc.data().displayName);
                     setBio(doc.data().bio);

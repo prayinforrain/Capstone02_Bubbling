@@ -26,7 +26,6 @@ export default function Maptest({userToken}) {
             //userToken이 있을 경우 DB에서 마지막 좌표를 받아옴
             if(userToken != null) {
                 dbService.collection("userProfile").doc(userToken.uid).get().then((doc) => {
-                    //console.log(typeof(doc.data().displayName));
                     if(doc.exists) {
                         if(doc.data().lat != null) {
                             setLat(doc.data().lat);

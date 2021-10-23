@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Button, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Button, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { dbService, auth, storageService } from '../../firebaseConfig';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -66,9 +66,9 @@ const RegisterComponent = ({navigation}) => {
                     setDocExist(true);
                 })
                 if(temp) {
-                    setError("Your Name already exists");
+                    setError("Your Profile ID already exists");
                 } else {
-                    if(error === "Your Name already exists") {
+                    if(error === "Your Profile ID already exists") {
                         setError("");
                     }
                     setDocExist(false);
@@ -113,7 +113,7 @@ const RegisterComponent = ({navigation}) => {
                 //Password Confirm
                 setError("Password should be same as Confirm Password.")
             }
-        } else setError("Your Name already exists");
+        } else setError("Your Profile ID already exists");
     }
 
     const onGoBack = () => {
@@ -121,72 +121,75 @@ const RegisterComponent = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Register Component</Text>
-            <Text>{Error}</Text>
-            <TextInput
-                placeholder="ID"
-                style={styles.input}
-                value={ID}
-                onChangeText={val => setID(val)}
-            />
-            <TextInput
-                placeholder="Password"
-                style={styles.input}
-                value={Password}
-                onChangeText={val => setPassword(val)}
-                secureTextEntry={true}
-            />
-            <TextInput
-                placeholder="Confirm Password"
-                style={styles.input}
-                value={pwConfirm}
-                onChangeText={val => setPwConfirm(val)}
-                secureTextEntry={true}
-            />
-            <TextInput
-                placeholder="Profile ID"
-                style={styles.input}
-                value={userProfileID}
-                onChangeText={val => setUserProfileID(val)}
-                onBlur={checkID}
-            />
-            <TextInput
-                placeholder="Name"
-                style={styles.input}
-                value={userName}
-                onChangeText={val => setUserName(val)}
-            />
-            <View style={styles.AddProfileContainer}>
-                <View style={styles.ImageConatiner}>
-                    {selectedImage !== null ? (
-                        <Image
-                        source={{uri: selectedImage.localUri}}
-                        style={styles.Thumbnail}
-                        />
-                    ) : (
-                        <MaterialIcons name="add-a-photo" size={24} color="black" />
-                    )}
+        <TouchableWithoutFeedback
+        onPress={() => {Keyboard.dismiss()}}>
+            <View style={styles.container}>
+                <Text style={styles.header}>Register Component</Text>
+                <Text>{Error}</Text>
+                <TextInput
+                    placeholder="ID"
+                    style={styles.input}
+                    value={ID}
+                    onChangeText={val => setID(val)}
+                />
+                <TextInput
+                    placeholder="Password"
+                    style={styles.input}
+                    value={Password}
+                    onChangeText={val => setPassword(val)}
+                    secureTextEntry={true}
+                />
+                <TextInput
+                    placeholder="Confirm Password"
+                    style={styles.input}
+                    value={pwConfirm}
+                    onChangeText={val => setPwConfirm(val)}
+                    secureTextEntry={true}
+                />
+                <TextInput
+                    placeholder="Profile ID"
+                    style={styles.input}
+                    value={userProfileID}
+                    onChangeText={val => setUserProfileID(val)}
+                    onBlur={checkID}
+                />
+                <TextInput
+                    placeholder="Name"
+                    style={styles.input}
+                    value={userName}
+                    onChangeText={val => setUserName(val)}
+                />
+                <View style={styles.AddProfileContainer}>
+                    <View style={styles.ImageConatiner}>
+                        {selectedImage !== null ? (
+                            <Image
+                            source={{uri: selectedImage.localUri}}
+                            style={styles.Thumbnail}
+                            />
+                        ) : (
+                            <MaterialIcons name="add-a-photo" size={24} color="black" />
+                        )}
+                    </View>
+                    
+                    <TouchableOpacity onPress={openImagePickerAsync} style={styles.Imagebutton}>
+                        <Text style={styles.loginText}>Pick a photo</Text>
+                    </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity onPress={openImagePickerAsync} style={styles.Imagebutton}>
-                    <Text style={styles.loginText}>Pick a photo</Text>
+                <TouchableOpacity
+                style={styles.loginButton}
+                onPress = {onRegister}
+                >
+                    <Text style={styles.loginText}>Register</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                style={styles.loginButton}
+                onPress = {onGoBack}
+                >
+                    <Text style={styles.loginText}>Cancel</Text>
                 </TouchableOpacity>
             </View>
-            
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onRegister}
-            >
-                <Text style={styles.loginText}>Register</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.loginButton}
-            onPress = {onGoBack}
-            >
-                <Text style={styles.loginText}>Cancel</Text>
-            </TouchableOpacity>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 

@@ -14,11 +14,8 @@ import { StatusBar } from 'expo-status-bar';
 const StackNav = createNativeStackNavigator();
 
 const LoginRouter = () => {
-    const [isLoggedIn, setLoggedIn] = useState(false);
-    
-
     return (
-        <NavigationContainer>
+        <>
             <StatusBar style="auto"/>
             <StackNav.Navigator screenOptions={{
                 headerShown:false
@@ -26,7 +23,7 @@ const LoginRouter = () => {
                 <StackNav.Screen name="LoginMain" component={LoginComponent} routerObject = {StackNav}/>
                 <StackNav.Screen name="Register" component={RegisterComponent} routerObject = {StackNav}/>
             </StackNav.Navigator>
-        </NavigationContainer>
+        </>
     );
 }
 
@@ -34,4 +31,3 @@ export default LoginRouter;
 
 const styles = StyleSheet.create({
 });
-  
