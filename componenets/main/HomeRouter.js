@@ -26,8 +26,8 @@ const HomeRouter = ({loadModal = false}) => {
 
     const ConfirmLogout = () => {
         Alert.alert(
-            "Alert title",
-            "Alert content",
+            "로그아웃",
+            "로그아웃 하시겠습니까?",
             [
                 {
                     text: "Cancel",
@@ -36,7 +36,7 @@ const HomeRouter = ({loadModal = false}) => {
                 },
                 {
                     text: "OK",
-                    onPress: () => console.log("OK"),
+                    onPress: () => onLogOut(),
                 }
             ]
         );
