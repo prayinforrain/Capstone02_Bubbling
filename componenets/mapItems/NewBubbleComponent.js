@@ -103,7 +103,6 @@ const NewBubbleComponent = ({modalVisible, setModalVisible, userToken}) => {
         onBackdropPress={onBackgroundTouch}>
             <View style={styles.container}>
                 <Text style={styles.header}>새 게시글</Text>
-                <Text>lat : {lat}, lon : {lon}</Text>
                 <View style={{flexDirection:"row"}}>
                     <TouchableOpacity style={styles.AddProfileContainer} onPress={openImagePickerAsync}>
                         <View style={styles.ImageConatiner}>
@@ -180,8 +179,8 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     Thumbnail: {
-        width: 300,
-        height: 150,
+        width: "100%",
+        aspectRatio:1,
         resizeMode: "contain",
     },
     ImageConatiner: {
